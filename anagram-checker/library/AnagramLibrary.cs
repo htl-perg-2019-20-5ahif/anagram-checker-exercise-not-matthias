@@ -10,24 +10,33 @@ namespace library
         {
             var anagrams = AnagramReader.ReadFromFile("anagrams.json");
 
-            IEnumerable<string> knownAnagrams = new List<string>();
+            List<string> knownAnagrams = new List<string>();
 
-            var sortedAnagram = string.Concat(name.OrderBy(c => c));
-            var filteredAnagrams = anagrams.Where(match => string.Equals(string.Concat(match.W1.OrderBy(c => c)), sortedAnagram));
-
-            //knownAnagrams.AddRange(filteredAnagrams);
-
+            // TODO: Read it into a dictionary once and then look it up
             foreach (Anagram anagram in anagrams)
             {
-                Console.WriteLine(anagram.W1);
+                //
+                // Compare with the first word
+                //
+                if (IsValidAnagram(new Anagram { W1 = anagram.W1, W2 = name})) {
+                    knownAnagrams.Add(anagram.W1);
+                }
+
+                //
+                // Compare with the second word
+                //
+                if (IsValidAnagram(new Anagram { W1 = name, W2 = anagram.W2 }))
+                {
+                    knownAnagrams.Add(anagram.W2);
+                }
             }
 
-            return new List<string>();
+            return knownAnagrams.Where(anagram => anagram != name).ToList();
         }
 
         public static bool IsValidAnagram(Anagram anagram)
         {
-            return true;
+            return string.Equals(string.Concat(anagram.W1.OrderBy(c => c)), string.Concat(anagram.W2.OrderBy(c => c)));
         }
     }
 }

@@ -8,8 +8,8 @@ namespace console
         {
             Console.WriteLine("Hello World!");
 
-
-            library.AnagramLibrary.GetKnownAnagrams("listen");
+            var knownAnagrams = library.AnagramLibrary.GetKnownAnagrams("listen");
+            Console.WriteLine();
         }
     }
 }
