@@ -43,14 +43,14 @@ namespace library
         /// </summary>
         /// <param name="anagrams">the list of anagrams</param>
         /// <returns>the dictionary with the anagrams (key = sorted anagram, value = list of anagrams)</returns>
-        public static Dictionary<string, List<string>> ConvertToDictionary(IEnumerable<Anagram> anagrams)
+        public static IDictionary<string, HashSet<string>> ConvertToDictionary(IEnumerable<Anagram> anagrams)
         {
             if(anagrams == null)
             {
                 return default;
             }
 
-            var dictionary = new Dictionary<string, List<string>>();
+            var dictionary = new Dictionary<string, HashSet<string>>();
 
             foreach (Anagram anagram in anagrams)
             {
@@ -58,11 +58,12 @@ namespace library
 
                 if (!dictionary.ContainsKey(sortedKey))
                 {
-                    dictionary.Add(sortedKey, new List<string> { anagram.W1, anagram.W2 });
+                    dictionary.Add(sortedKey, new HashSet<string> { anagram.W1, anagram.W2 });
                 }
                 else
                 {
-                    dictionary[sortedKey].AddRange(new List<string> { anagram.W1, anagram.W2 });
+                    dictionary[sortedKey].Add(anagram.W1);
+                    dictionary[sortedKey].Add(anagram.W2);
                 }
             }
 
