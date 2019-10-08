@@ -14,6 +14,7 @@ namespace console
             if (args.Length == 0)
             {
                 Console.WriteLine("Invalid arguments.");
+                return;
             }
 
             switch (args[0])
@@ -30,8 +31,6 @@ namespace console
                     HandleDefault();
                     break;
             }
-
-            Console.WriteLine();
         }
 
         private static void HandleCheckAnagram(string[] args)
