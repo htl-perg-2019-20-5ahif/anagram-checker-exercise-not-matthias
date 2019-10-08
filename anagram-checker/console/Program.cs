@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Linq;
 using library;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.EnvironmentVariables;
-using Microsoft.Extensions.Configuration.Json;
 
 namespace console
 {
@@ -53,7 +50,7 @@ namespace console
                 return;
             }
 
-            var anagramLibrary = new AnagramLibrary(GetConfiguration().Build());
+            var anagramLibrary = new AnagramLibrary(new AnagramFileReader(GetConfiguration().Build()));
             var knownAnagrams = anagramLibrary.GetKnownAnagrams(args[1]);
             if (knownAnagrams.Count == 0)
             {

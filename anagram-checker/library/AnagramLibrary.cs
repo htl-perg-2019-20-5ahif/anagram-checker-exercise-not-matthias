@@ -1,16 +1,15 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace library
 {
-    public class AnagramLibrary
+    public class AnagramLibrary : IAnagramLibrary
     {
-        private readonly IConfiguration config;
+        private readonly IAnagramReader anagramReader;
 
-        public AnagramLibrary(IConfiguration config)
+        public AnagramLibrary(IAnagramReader anagramReader)
         {
-            this.config = config;
+            this.anagramReader = anagramReader;
         }
 
         /// <summary>
@@ -22,11 +21,19 @@ namespace library
         {
             var sortedAnagramName = anagramName.SortAscending();
 
-            var anagramReader = new AnagramReader(config);
             var anagrams = anagramReader.ReadFromFile();
-            var dictionary = AnagramReader.ConvertToDictionary(anagrams);
+            if(anagrams == null)
+            {
+                return default;
+            }
 
-            if(!dictionary.ContainsKey(sortedAnagramName))
+            var dictionary = AnagramFileReader.ConvertToDictionary(anagrams);
+            if (anagrams == null)
+            {
+                return default;
+            }
+
+            if (!dictionary.ContainsKey(sortedAnagramName))
             {
                 return default;
             }

@@ -2,15 +2,14 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace library
 {
-    public class AnagramReader
+    public class AnagramFileReader : IAnagramReader
     {
         private readonly IConfiguration config;
 
-        public AnagramReader(IConfiguration config)
+        public AnagramFileReader(IConfiguration config)
         {
             this.config = config;
         }
@@ -46,7 +45,12 @@ namespace library
         /// <returns>the dictionary with the anagrams (key = sorted anagram, value = list of anagrams)</returns>
         public static Dictionary<string, List<string>> ConvertToDictionary(IEnumerable<Anagram> anagrams)
         {
-            Dictionary<string, List<string>> dictionary = new Dictionary<string, List<string>>();
+            if(anagrams == null)
+            {
+                return default;
+            }
+
+            var dictionary = new Dictionary<string, List<string>>();
 
             foreach (Anagram anagram in anagrams)
             {
