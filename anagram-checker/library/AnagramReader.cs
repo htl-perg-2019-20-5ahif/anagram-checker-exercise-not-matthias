@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace library
 {
-    class AnagramReader
+    public class AnagramReader
     {
         private readonly IConfiguration config;
 
@@ -21,9 +21,15 @@ namespace library
         /// <returns>the collection of anagrams</returns>
         public IEnumerable<Anagram> ReadFromFile()
         {
+            var fileName = config["dictionaryFileName"];
+            if(string.IsNullOrEmpty(fileName))
+            {
+                return default;
+            }
+
             try
             {
-                using StreamReader r = new StreamReader(config["dictionaryFileName"]);
+                using StreamReader r = new StreamReader(fileName);
                 string json = r.ReadToEnd();
                 return JsonConvert.DeserializeObject<List<Anagram>>(json);
             }
@@ -44,7 +50,7 @@ namespace library
 
             foreach (Anagram anagram in anagrams)
             {
-                var sortedKey = string.Concat(anagram.W1.OrderBy(c => c));
+                var sortedKey = anagram.W1.SortAscending();
 
                 if (!dictionary.ContainsKey(sortedKey))
                 {

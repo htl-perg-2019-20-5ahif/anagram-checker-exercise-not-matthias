@@ -1,6 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using library;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.EnvironmentVariables;
+using Microsoft.Extensions.Configuration.Json;
 
 namespace console
 {
@@ -10,10 +13,8 @@ namespace console
         {
             if (args.Length == 0)
             {
-
+                Console.WriteLine("Invalid arguments.");
             }
-
-            //AnagramChecker check listen silent
 
             switch (args[0])
             {
@@ -37,7 +38,7 @@ namespace console
         {
             if (args.Length != 3)
             {
-                Console.WriteLine("Could not find any anagrams in the parameters.");
+                Console.WriteLine("Invalid arguments.");
                 return;
             }
 
@@ -47,12 +48,35 @@ namespace console
 
         private static void HandleGetKnown(string[] args)
         {
+            if (args.Length != 2)
+            {
+                Console.WriteLine("Invalid arguments.");
+                return;
+            }
 
+            var anagramLibrary = new AnagramLibrary(GetConfiguration().Build());
+            var knownAnagrams = anagramLibrary.GetKnownAnagrams(args[1]);
+            if (knownAnagrams.Count == 0)
+            {
+                Console.WriteLine("No known anagrams found.");
+                return;
+            }
+
+            knownAnagrams.ForEach(Console.WriteLine);
         }
 
         private static void HandleDefault()
         {
             Console.WriteLine("Command not found.");
+        }
+
+        private static IConfigurationBuilder GetConfiguration()
+        {
+            var environmentName = Environment.GetEnvironmentVariable("Hosting:Environment");
+            return new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{environmentName}.json", true)
+                .AddEnvironmentVariables();
         }
     }
 }
