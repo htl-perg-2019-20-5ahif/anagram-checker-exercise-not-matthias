@@ -6,10 +6,10 @@ namespace library
 {
     public static class AnagramLibrary
     {
+        private static readonly Dictionary<string, List<string>>  anagrams = AnagramReader.ConvertToDictionary(AnagramReader.ReadFromFile("anagrams.json"));
+
         public static List<string> GetKnownAnagrams(string name)
         {
-            var anagrams = AnagramReader.ReadFromFile("anagrams.json");
-
             List<string> knownAnagrams = new List<string>();
 
             // TODO: Read it into a dictionary once and then look it up
