@@ -7,7 +7,6 @@
 
         public Anagram()
         {
-                
         }
 
         public Anagram(string w1, string w2)

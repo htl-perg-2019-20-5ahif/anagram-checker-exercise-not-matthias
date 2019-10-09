@@ -54,17 +54,7 @@ namespace library
                 return default;
             }
 
-            if (name.Length == 1)
-            {
-                return new List<string> { name };
-            }
-
-            // Source: https://loekvandenouweland.com/content/Permutations-with-C-sharp-and-LINQ.html
-            var permutations = from c in name
-                               from p in GetPermutations(new string(name.Where(x => x != c).ToArray()))
-                               select c + p;
-
-            return permutations;
-        }
+            return name.GetPermutations();
+        }        
     }
 }
