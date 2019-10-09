@@ -2,7 +2,7 @@
   "profiles": {
     "console": {
       "commandName": "Project",
-      "commandLineArgs": "getKnown silent"
+      "commandLineArgs": "getKnown listen"
     }
   }
 }

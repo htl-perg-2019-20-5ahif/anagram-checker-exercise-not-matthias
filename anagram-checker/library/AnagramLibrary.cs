@@ -39,7 +39,7 @@ namespace library
                 return default;
             }
 
-            return dictionary[sortedAnagramName].Where(anagram => anagram != anagramName).ToList();
+            return dictionary[sortedAnagramName].Where(anagram => anagram != anagramName);
         }
 
         /// <summary>
