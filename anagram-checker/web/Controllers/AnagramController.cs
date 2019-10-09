@@ -50,7 +50,7 @@ namespace web.Controllers
                 return BadRequest();
             }
 
-            var knownAnagrams = anagramLibrary.GetKnownAnagrams(name);
+            var knownAnagrams = anagramLibrary.GetKnownAnagrams(name).ToList();
             if (knownAnagrams == null || knownAnagrams.Count == 0)
             {
                 logger.LogWarning($"\"{name}\" is not in our dictionary.");
@@ -59,5 +59,25 @@ namespace web.Controllers
 
             return Ok(knownAnagrams);
         }
+
+        [HttpGet]
+        [Route("getPermutations")]
+        public IActionResult GetPermutations([FromQuery] string name)
+        {
+            if (name == null || string.IsNullOrEmpty(name))
+            {
+                logger.LogWarning("No permutation name found.");
+                return BadRequest();
+            }
+
+            //var permutations = ;
+            //if (permutations == null)
+            //{
+            //    logger.LogWarning("No permutations found.");
+            //    return NotFound();
+            //}
+
+            return Ok(anagramLibrary.GetPermutations(name));
+        }   
     }
 }

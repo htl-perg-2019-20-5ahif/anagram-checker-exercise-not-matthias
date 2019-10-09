@@ -4,6 +4,8 @@ namespace library
 {
     public interface IAnagramLibrary
     {
-        public List<string> GetKnownAnagrams(string anagramName);
+        public IEnumerable<string> GetKnownAnagrams(string anagramName);
+
+        public IEnumerable<string> GetPermutations(string name);
     }
 }

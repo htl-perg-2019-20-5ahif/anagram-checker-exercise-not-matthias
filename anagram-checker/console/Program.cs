@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using library;
 using Microsoft.Extensions.Configuration;
 
@@ -51,7 +52,7 @@ namespace console
             }
 
             var anagramLibrary = new AnagramLibrary(new AnagramFileReader(GetConfiguration().Build()));
-            var knownAnagrams = anagramLibrary.GetKnownAnagrams(args[1]);
+            var knownAnagrams = anagramLibrary.GetKnownAnagrams(args[1]).ToList();
             if (knownAnagrams.Count == 0)
             {
                 Console.WriteLine("No known anagrams found.");
